@@ -32,7 +32,7 @@ class OriginChannels():
 
         return channel_list
 
-    def get_channel_stream(self, chandict):
+    def get_channel_stream(self, chandict, stream_args):
 
         try:
 
@@ -53,7 +53,10 @@ class OriginChannels():
 
         if self.fhdhr.config.dict["origin"]["force_best"]:
             streamurl = self.m3u8_beststream(streamurl)
-        return streamurl
+
+        stream_info = {"url": streamurl}
+
+        return stream_info
 
     def xumo_bad(self, name):
         missing = ["ACC Digital Network", "Above Average", "Adventure Sports Network", "Ameba",
