@@ -76,11 +76,11 @@ class OriginEPG():
     def get_cached_content(self, content_id):
         cacheitem = self.fhdhr.db.get_cacheitem_value(str(content_id), "content_cache", "origin")
         if cacheitem:
-            self.fhdhr.logger.info('FROM CACHE:  ' + str(content_id))
+            self.fhdhr.logger.info("FROM CACHE:  %s" % content_id)
             return cacheitem
         else:
             content_url = "%sassets/asset/%s.json?f=title&f=providers&f=descriptions&f=runtime&f=availableSince" % (self.base_api, content_id)
-            self.fhdhr.logger.info('Fetching:  ' + content_url)
+            self.fhdhr.logger.info("Fetching:  %s" % content_url)
             try:
                 resp = self.fhdhr.web.session.get(content_url)
             except self.fhdhr.web.exceptions.HTTPError:
@@ -99,13 +99,13 @@ class OriginEPG():
 
     def get_cached_item(self, channel_id, cache_key, url):
         cache_key = datetime.datetime.today().replace(hour=cache_key).timestamp()
-        cache_key = str(channel_id) + "_" + str(cache_key)
-        cacheitem = self.fhdhr.db.get_cacheitem_value(str(cache_key), "epg_cache", "origin")
+        cache_key = "%s_%s" % (channel_id, cache_key)
+        cacheitem = self.fhdhr.db.get_cacheitem_value(cache_key, "epg_cache", "origin")
         if cacheitem:
-            self.fhdhr.logger.info('FROM CACHE:  ' + str(cache_key))
+            self.fhdhr.logger.info("FROM CACHE:  %s" % cache_key)
             return cacheitem
         else:
-            self.fhdhr.logger.info('Fetching:  ' + url)
+            self.fhdhr.logger.info("Fetching:  %s" % url)
             try:
                 resp = self.fhdhr.web.session.get(url)
             except self.fhdhr.web.exceptions.HTTPError:
@@ -128,12 +128,12 @@ class OriginEPG():
             if float(cachetime) < cache_clear_time:
                 cache_to_kill.append(cacheitem)
                 self.fhdhr.db.delete_cacheitem_value(str(cacheitem), "epg_cache", "origin")
-                self.fhdhr.logger.info('Removing stale cache:  ' + str(cacheitem))
+                self.fhdhr.logger.info("Removing stale cache:  %s" % cacheitem)
         self.fhdhr.db.set_cacheitem_value("cache_list", "epg_cache", [x for x in cache_list if x not in cache_to_kill], "origin")
 
     def clear_cache(self):
         cache_list = self.fhdhr.db.get_cacheitem_value("cache_list", "epg_cache", "origin") or []
         for cacheitem in cache_list:
             self.fhdhr.db.delete_cacheitem_value(cacheitem, "epg_cache", "origin")
-            self.fhdhr.logger.info('Removing cache:  ' + str(cacheitem))
+            self.fhdhr.logger.info("Removing cache:  %s" % cacheitem)
         self.fhdhr.db.delete_cacheitem_value("cache_list", "epg_cache", "origin")
