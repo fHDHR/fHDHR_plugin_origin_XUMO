@@ -1,4 +1,3 @@
-import m3u8
 
 
 class OriginChannels():
@@ -51,9 +50,6 @@ class OriginChannels():
         except KeyError:
             return None
 
-        if self.fhdhr.config.dict["origin"]["force_best"]:
-            streamurl = self.m3u8_beststream(streamurl)
-
         stream_info = {"url": streamurl}
 
         return stream_info
@@ -78,20 +74,3 @@ class OriginChannels():
             return True
         else:
             return False
-
-    def m3u8_beststream(self, m3u8_url):
-        bestStream = None
-        videoUrlM3u = m3u8.load(m3u8_url)
-        if not videoUrlM3u.is_variant:
-            return m3u8_url
-
-        for videoStream in videoUrlM3u.playlists:
-            if not bestStream:
-                bestStream = videoStream
-            elif videoStream.stream_info.bandwidth > bestStream.stream_info.bandwidth:
-                bestStream = videoStream
-
-        if not bestStream:
-            return bestStream.absolute_uri
-        else:
-            return m3u8_url
