@@ -33,19 +33,9 @@
                     "value": "blocks",
                     "config_file": true,
                     "config_web": true
-                },
-          "valid_epg_methods":{
-                          "value": "None,blocks,origin",
-                          "config_file": false,
-                          "config_web": false
-                        }
+                }
   },
   "xumo":{
-          "force_best":{
-                    "value": false,
-                    "config_file": true,
-                    "config_web": true
-                },
           "geoID":{
                     "value": "none",
                     "config_file": true,
