@@ -1,0 +1,14 @@
+{
+  "xumo":{
+          "geoID":{
+                    "value": "none",
+                    "config_file": true,
+                    "config_web": false
+                },
+          "geoLST":{
+                    "value": "none",
+                    "config_file": true,
+                    "config_web": false
+                }
+  }
+}
