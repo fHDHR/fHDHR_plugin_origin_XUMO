@@ -9,6 +9,9 @@ class Plugin_OBJ():
     def __init__(self, plugin_utils):
         self.plugin_utils = plugin_utils
 
+        self.tuners = self.plugin_utils.config.dict["xumo"]["tuners"]
+        self.stream_method = self.plugin_utils.config.dict["xumo"]["stream_method"]
+
         self.base_url = 'http://www.xumo.tv'
         self.base_api = 'https://valencia-app-mds.xumo.com/v2/'
 
