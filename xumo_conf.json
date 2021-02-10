@@ -1,11 +1,11 @@
 {
   "xumo":{
-          "geoID":{
+          "geoid":{
                     "value": "none",
                     "config_file": true,
                     "config_web": false
                 },
-          "geoLST":{
+          "geolst":{
                     "value": "none",
                     "config_file": true,
                     "config_web": false
@@ -14,6 +14,11 @@
                 "value": 4,
                 "config_file": true,
                 "config_web": true
-            }
+            },
+            "stream_method":{
+                      "value": "direct",
+                      "config_file": true,
+                      "config_web": true
+                  }
   }
 }
