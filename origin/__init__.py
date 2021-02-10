@@ -9,33 +9,40 @@ class Plugin_OBJ():
     def __init__(self, plugin_utils):
         self.plugin_utils = plugin_utils
 
-        self.tuners = self.plugin_utils.config.dict["xumo"]["tuners"]
-        self.stream_method = self.plugin_utils.config.dict["xumo"]["stream_method"]
-
         self.base_url = 'http://www.xumo.tv'
         self.base_api = 'https://valencia-app-mds.xumo.com/v2/'
 
-        self.geoID, self.geoLST = None, None
-
         self.login()
 
+    @property
+    def tuners(self):
+        return self.plugin_utils.config.dict["xumo"]["tuners"]
+
+    @property
+    def stream_method(self):
+        return self.plugin_utils.config.dict["xumo"]["stream_method"]
+
+    @property
+    def geoID(self):
+        return self.plugin_utils.config.dict["xumo"]["geoid"]
+
+    @property
+    def geoLST(self):
+        return self.plugin_utils.config.dict["xumo"]["geolst"]
+
     def login(self):
-        self.plugin_utils.logger.info("Fetching XUMO token")
-        self.geoID, self.geoLST = self.getID()
+        self.getID()
         if not self.geoID or not self.geoLST:
             raise fHDHR.exceptions.OriginSetupError("XUMO Setup Failed")
         else:
             self.plugin_utils.logger.info("XUMO Setup Success")
-            self.plugin_utils.config.write('geoid', self.geoID, self.plugin_utils.namespace)
-            self.plugin_utils.config.write('geolst', self.geoLST, self.plugin_utils.namespace)
-        return True
 
     def getID(self):
 
-        if self.plugin_utils.config.dict["xumo"]["geoID"] and self.plugin_utils.config.dict["xumo"]["geoLST"]:
-            geoID = self.plugin_utils.config.dict["xumo"]["geoid"]
-            geoLST = self.plugin_utils.config.dict["xumo"]["geolst"]
-            return geoID, geoLST
+        if self.geoID and self.geoLST:
+            return
+
+        self.plugin_utils.logger.info("Fetching XUMO token")
 
         try:
             url_headers = {'User-Agent': 'Mozilla/5.0'}
@@ -44,9 +51,12 @@ class Plugin_OBJ():
             geoID, geoLST = results["jobs"]["1"]["data"]["geoId"], results["jobs"]["1"]["data"]["channelListId"]
         except Exception as e:
             self.plugin_utils.logger.warning("XUMO Setup Failed: %s" % e)
-            return None, None
+            return
 
-        return geoID, geoLST
+        self.plugin_utils.config.write('geoid', geoID, self.plugin_utils.namespace)
+        self.plugin_utils.config.write('geolst', geoLST, self.plugin_utils.namespace)
+
+        return
 
     def get_channels(self):
 
