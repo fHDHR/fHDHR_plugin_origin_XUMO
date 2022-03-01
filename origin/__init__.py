@@ -15,20 +15,16 @@ class Plugin_OBJ():
         self.login()
 
     @property
-    def tuners(self):
-        return self.plugin_utils.config.dict["xumo"]["tuners"]
-
-    @property
-    def stream_method(self):
-        return self.plugin_utils.config.dict["xumo"]["stream_method"]
+    def config_dict(self):
+        return self.plugin_utils.config.dict["xumo"]
 
     @property
     def geoID(self):
-        return self.plugin_utils.config.dict["xumo"]["geoid"]
+        return self.config_dict["geoid"]
 
     @property
     def geoLST(self):
-        return self.plugin_utils.config.dict["xumo"]["geolst"]
+        return self.config_dict["geolst"]
 
     def login(self):
         self.getID()
