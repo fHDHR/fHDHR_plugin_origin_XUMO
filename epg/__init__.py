@@ -19,8 +19,8 @@ class Plugin_OBJ():
         todaydate = datetime.datetime.utcnow().date()
         self.remove_stale_cache(todaydate)
 
-        for fhdhr_id in list(self.channels.list[self.plugin_utils.namespace].keys()):
-            chan_obj = self.channels.list[self.plugin_utils.namespace][fhdhr_id]
+        for fhdhr_channel_id in list(self.channels.list[self.plugin_utils.namespace].keys()):
+            chan_obj = self.channels.list[self.plugin_utils.namespace][fhdhr_channel_id]
 
             if str(chan_obj.number) not in list(programguide.keys()):
                 programguide[str(chan_obj.number)] = chan_obj.epgdict
